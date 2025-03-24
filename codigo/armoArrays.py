@@ -1,4 +1,3 @@
-
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -17,7 +16,7 @@ data = np.genfromtxt(fname,
 # si la línea de arriba tira error por formato pueden usar pandas que es más robusto
 # Cambien los argumentos que sea necesario
 df = pd.read_csv(fname,
-                 skiprows = 1, #que ignore la primera fila
+                    #que ignore la primera fila
                  sep = ';',  # separados
                  decimal = '.',  # punto decimal ('.' o ',')
                  dtype = float)  # tipo de datos
@@ -25,4 +24,3 @@ df = pd.read_csv(fname,
 # para convertirlo a np.array:
 data = df.to_numpy()
 
-print(data [0])
