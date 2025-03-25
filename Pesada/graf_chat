@@ -1,0 +1,70 @@
+import numpy as np  
+import matplotlib.pyplot as plt
+import pandas as pd
+import armoArrays as ar
+import standardDeviation as sd
+from scipy import stats
+from scipy.optimize import curve_fit
+
+# Obtención de datos
+array = ar.data
+masa = array[3]
+inc_masa = array[3][-1]
+masa = np.delete(masa, -1)  # Eliminar el último valor de masa
+
+inc_mc = inc_masa * 2 * masa  # Incertidumbre para masa al cuadrado
+
+diametro = array[7]
+inc_diametro = array[7][-1]
+diametro = np.delete(diametro, -1)  # Eliminar el último valor de diametro
+
+# Ajuste lineal: y(t) = H - (g / 2) * t^2
+# Primero transformamos t a t^2 (t̃)
+masa_squared = masa**2
+inc_masa_squared = 2 * np.abs(masa) * inc_masa  # Incertidumbre de t^2
+
+# Usamos linregress para obtener la pendiente que estará relacionada con g
+ajuste = stats.linregress(masa_squared, diametro)
+
+# Mostrar los resultados del ajuste lineal
+print(f"Pendiente (a): {ajuste.slope:.2f} ± {ajuste.stderr:.2f}")
+print(f"Ordenada al origen (b): {ajuste.intercept:.2f} ± {ajuste.intercept_stderr:.2f}")
+
+# La gravedad se obtiene como g = 2 * pendiente (porque a = g / 2)
+g = 2 * ajuste.slope
+print(f"Gravedad estimada (g): {g:.2f} m/s^2")
+
+# Graficar los datos con el ajuste lineal
+plt.figure(figsize=(5, 4))
+plt.errorbar(masa_squared, diametro, yerr=inc_diametro, xerr=inc_masa_squared, fmt='o', ms=3, ls='none', capsize=3, label="Datos")
+plt.plot(masa_squared, ajuste.slope * masa_squared + ajuste.intercept, 'r-', label="Ajuste lineal (OLS)")
+plt.xlabel('$t^2$ (Tiempo al cuadrado)')
+plt.ylabel('Distancia (m)')
+plt.legend()
+plt.show()
+
+# Ajuste cuadrático con curve_fit
+# La función cuadrática que se ajustará es y(t) = H - (g/2) * t^2
+def cuadratica(t, H, g):
+    return H - (g / 2) * t**2
+
+# Usamos curve_fit para obtener los parámetros H y g
+popt, pcov = curve_fit(cuadratica, masa, diametro, sigma=inc_diametro, p0=[diametro[0], 9.8])
+
+# Los parámetros óptimos H y g
+H_opt, g_opt = popt
+g_err = np.sqrt(np.diag(pcov))[1]  # Error en g
+
+# Mostrar los resultados del ajuste cuadrático
+print(f"Ajuste cuadrático: H = {H_opt:.2f}, g = {g_opt:.2f} ± {g_err:.2f}")
+
+# Graficar los datos con el ajuste cuadrático
+y_pred = cuadratica(masa, *popt)
+
+plt.figure(figsize=(5, 4))
+plt.errorbar(masa, diametro, yerr=inc_diametro, xerr=inc_masa, fmt='o', ms=3, ls='none', capsize=3, label="Datos")
+plt.plot(masa, y_pred, 'r-', label="Ajuste cuadrático")
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Distancia (m)')
+plt.legend()
+plt.show()

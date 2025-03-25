@@ -4,6 +4,7 @@ import pandas as pd
 import armoArrays as ar
 import standardDeviation as sd
 
+
 diametro = ar.data[7]
 inc_diametro = ar.data[7][-1]
 diametro=np.delete(diametro, -1)
@@ -19,7 +20,7 @@ plt.errorbar(masa,diametro,
              xerr=inc_masa, yerr=inc_diametro,
              fmt='o', ms=4, ls='none', capsize=3, zorder=0)
 
-plt.xlabel("Masa [kg]")
-plt.ylabel("Diámetro [m]")
-plt.title("Diametro en funcion de la masa")
+plt.xlabel("Masa [g]")
+plt.ylabel("Diámetro [cm]")
+plt.title("Diametro en funcion de la masa 1")
 plt.show()

@@ -23,5 +23,5 @@ for i in range(10):
     err = np.sqrt(err_inst**2 + err_est**2)
 
     ar.data[i][N-1]=err
-    print(ar.data[i])
+    # print(ar.data[i])
 
