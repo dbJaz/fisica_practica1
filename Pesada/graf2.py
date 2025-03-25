@@ -58,8 +58,8 @@ print(f"b: {b:.2f} ± {inc_b:.2f}") # intercept_stderr
 y_pred = cuadratica(masa,a,b)  # predicciones del modelo con los parámetros óptimos
 
 plt.figure(figsize = (5,4))
-plt.errorbar(masa, diametro, yerr=inc_diametro, xerr = inc_masa, fmt='o',ms=3,ls='none',capsize=3)
-plt.plot(masa, y_pred,c='r')
+plt.errorbar(masa**2, diametro, yerr=inc_diametro, xerr = inc_mc, fmt='o',ms=3,ls='none',capsize=3)
+plt.plot(masa**2, y_pred,c='r')
 plt.xlabel('Masa [g^2]')
 plt.ylabel('Diametro [cm]')
 plt.title('Diametro en función de la masa^2, hoja pesada')
