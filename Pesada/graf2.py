@@ -34,14 +34,14 @@ print(f"Ordenada al origen: {ajuste.intercept:.2f} ± {ajuste.intercept_stderr:.
 
 # curve_fit requiere como argumento la función que se quiere ajustar
 def cuadratica(x,a,b): # x debe ser el primer argumento y después los parámetros a ajustar
-    return a*x**2 + b
+    return a*np.log(x) + b
 
 # usamos curve_fit
 popt, pcov = curve_fit(f = cuadratica,  # la función que va a usar
                       xdata = masa,        # data en x
                       ydata = diametro,        # data en y
                       sigma = inc_diametro,    # incertidumbre en y
-                      p0 = (-5,2))      # estimación inicial de los parámetros a y b
+                      p0 = (-5,6))      # estimación inicial de los parámetros a y b
 
 # popt serán los parámetros óptimos
 a, b = popt[0], popt[1]
@@ -60,6 +60,7 @@ y_pred = cuadratica(masa,a,b)  # predicciones del modelo con los parámetros óp
 plt.figure(figsize = (5,4))
 plt.errorbar(masa, diametro, yerr=inc_diametro, xerr = inc_masa, fmt='o',ms=3,ls='none',capsize=3)
 plt.plot(masa, y_pred,c='r')
-plt.xlabel('Tiempo al cuadrado [s^2]')
-plt.ylabel('Distancia [m]')
+plt.xlabel('Masa [g^2]')
+plt.ylabel('Diametro [cm]')
+plt.title('Diametro en función de la masa^2, hoja pesada')
 plt.show()

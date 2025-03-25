@@ -27,5 +27,5 @@ plt.plot(area, y_pred,c='r')
 
 plt.xlabel("Área [cm^2]")
 plt.ylabel("Masa [g]")
-plt.title("Masa en funcion del área")
+plt.title("Masa en funcion del área, hoja Pesada")
 plt.show()

@@ -22,5 +22,5 @@ plt.errorbar(masa,diametro,
 
 plt.xlabel("Masa [g]")
 plt.ylabel("Diámetro [cm]")
-plt.title("Diametro en funcion de la masa 1")
+plt.title("Diametro en funcion de la masa, hoja Pesada")
 plt.show()
