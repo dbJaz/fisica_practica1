@@ -11,7 +11,7 @@ diametro=np.delete(diametro, -1)
 
 
 masa = ar.data[9]
-inc_masa = ar.data[9][-1]
+inc_masa = 0.1
 masa = np.delete(masa, -1)
 
 

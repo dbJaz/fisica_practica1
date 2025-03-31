@@ -6,12 +6,12 @@ import OstandardDeviation as sd
 from scipy import stats
 
 masa = ar.data[9]
-inc_masa = ar.data[9][-1]
+inc_masa = 0.1#la incertidumbre instrumental
 masa=np.delete(masa, -1)
 
 
 area = ar.data[2]
-inc_area = ar.data[2][-1]
+inc_area = 0.01#la incertidumbre instrumental
 area = np.delete(area, -1)
 
 ajuste = stats.linregress(area, masa)

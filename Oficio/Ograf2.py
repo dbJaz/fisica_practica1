@@ -9,7 +9,7 @@ from scipy.optimize import curve_fit
 
 array=ar.data
 masa=ar.data[3]
-inc_masa=ar.data[3][-1]
+inc_masa=0.1
 masa=np.delete(masa, -1)
 inc_mc = inc_masa * 2 * masa
 print("valor ")
