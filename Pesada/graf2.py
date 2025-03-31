@@ -6,27 +6,28 @@ import standardDeviation as sd
 from scipy import stats
 from scipy.optimize import curve_fit
 
+
 array=ar.data
-masa=ar.data[3]
-inc_masa=ar.data[3][-1]
-masa=np.delete(masa, -1)
-inc_mc = inc_masa * 2 * masa
-print("valor ")
-print(inc_mc)
-diametro=array[7]
-inc_diametro=array[7][-1]
-diametro=np.delete(diametro, -1)
+log_masa=ar.data[11]
+inc_masa=0.05
+
+
+
+log_diametro=array[10]
+inc_diametro=sd.stdl_arr
+inc_diametro= np.abs(inc_diametro)
+
 
 
 # plt.figure(figsize=(4, 3))
 # plt.errorbar(masa**2, diametro, yerr=inc_diametro, xerr=inc_mc,fmt='o',ms=3,ls='none',capsize=3,zorder=0)
 
-ajuste = stats.linregress(masa**2, diametro)
-# Accedo a los parámetros óptimos a traves de ajuste
-print(f"Pendiente: {ajuste.slope:.2f} ± {ajuste.stderr:.2f}") #stderr devuelve el error de la pendiente
-# :.2f para redondear a 2 decimales
-print(f"Ordenada al origen: {ajuste.intercept:.2f} ± {ajuste.intercept_stderr:.2f}") # intercept_stderr
-#devuelve el error de la ordenada
+# ajuste = stats.linregress(log_masa, log_diametro)
+# # Accedo a los parámetros óptimos a traves de ajuste
+# print(f"Pendiente: {ajuste.slope:.2f} ± {ajuste.stderr:.2f}") #stderr devuelve el error de la pendiente
+# # :.2f para redondear a 2 decimales
+# print(f"Ordenada al origen: {ajuste.intercept:.2f} ± {ajuste.intercept_stderr:.2f}") # intercept_stderr
+# #devuelve el error de la ordenada
 
 # Grafico los datos junto con la recta ajustada
 # y_pred = ajuste.slope * masa**2 + ajuste.intercept # Predicción de recta
@@ -34,12 +35,12 @@ print(f"Ordenada al origen: {ajuste.intercept:.2f} ± {ajuste.intercept_stderr:.
 
 # curve_fit requiere como argumento la función que se quiere ajustar
 def cuadratica(x,a,b): # x debe ser el primer argumento y después los parámetros a ajustar
-    return a*np.log(x) + b
+    return a*(x) + b
 
 # usamos curve_fit
 popt, pcov = curve_fit(f = cuadratica,  # la función que va a usar
-                      xdata = masa,        # data en x
-                      ydata = diametro,        # data en y
+                      xdata = log_masa,        # data en x
+                      ydata = log_diametro,        # data en y
                       sigma = inc_diametro,    # incertidumbre en y
                       p0 = (-5,6))      # estimación inicial de los parámetros a y b
 
@@ -55,12 +56,13 @@ print(f"a: {a:.2f} ± {inc_a:.2f}")
 print(f"b: {b:.2f} ± {inc_b:.2f}") # intercept_stderr
 
 # Graficamos
-y_pred = cuadratica(masa,a,b)  # predicciones del modelo con los parámetros óptimos
+y_pred = cuadratica(log_masa,a,b)  # predicciones del modelo con los parámetros óptimos
 
 plt.figure(figsize = (5,4))
-plt.errorbar(masa**2, diametro, yerr=inc_diametro, xerr = inc_mc, fmt='o',ms=3,ls='none',capsize=3)
-plt.plot(masa**2, y_pred,c='r')
-plt.xlabel('Masa [g^2]')
-plt.ylabel('Diametro [cm]')
-plt.title('Diametro en función de la masa^2, hoja pesada')
+plt.errorbar(log_masa, log_diametro, yerr=inc_diametro, xerr = inc_masa, fmt='o',ms=3,ls='none',capsize=3)
+plt.plot(log_masa, y_pred,c='r')
+plt.xlabel('Log(masa) [g]')
+plt.ylabel('Log(diametro) [cm]')
+plt.title('Gráfico diametro y masa en escala logarítmica, hoja pesada'
+'')
 plt.show()

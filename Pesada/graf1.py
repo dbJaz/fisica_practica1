@@ -6,13 +6,10 @@ import standardDeviation as sd
 
 
 diametro = ar.data[7]
-inc_diametro = ar.data[7][-1]
-diametro=np.delete(diametro, -1)
-
+inc_diametro = sd.std_arr
 
 masa = ar.data[9]
-inc_masa = ar.data[9][-1]
-masa = np.delete(masa, -1)
+inc_masa = 0.01
 
 
 plt.figure(figsize=(5, 4))
@@ -22,5 +19,5 @@ plt.errorbar(masa,diametro,
 
 plt.xlabel("Masa [g]")
 plt.ylabel("Diámetro [cm]")
-plt.title("Diametro en funcion de la masa, hoja Pesada")
+plt.title("Diametro en funcion de la masa, hoja pesada")
 plt.show()
