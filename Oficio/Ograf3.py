@@ -7,12 +7,19 @@ from scipy import stats
 
 masa = ar.data[9]
 inc_masa = 0.1#la incertidumbre instrumental
-masa=np.delete(masa, -1)
-
 
 area = ar.data[2]
-inc_area = 0.01#la incertidumbre instrumental
-area = np.delete(area, -1)
+inc_area = []
+for i in range(8):
+    area=ar.data[2][i]
+    lado1=ar.data[0][i]
+    lado2=ar.data[1][i]
+    incerteza = area*((0.5/lado1)+(0.5/lado2))
+    inc_area = np.append(inc_area,incerteza)
+
+print(inc_area)
+print(type(area), type(masa))
+print(area, masa)
 
 ajuste = stats.linregress(area, masa)
 
