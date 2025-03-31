@@ -8,33 +8,14 @@ err_inst = 0.01 # igual para todas las mediciones
 # Contar el número de filas en el archivo pesada.csv
 file_path = 'csv/Oficio.csv'
 data = pd.read_csv(file_path)
-num_rows = len(data)
 
+arr1=ar.data[4]
+arr2=ar.data[5]
+arr3=ar.data[6]
+std_arr=[]
 
-#Ejemplo para mediciones de una magnitud arbitraria
-mediciones = np.array([0.99, 0.75, 1.02, 1.38, 1.02, 1.18, 1.23, 1.17, 0.98, 1.27])
-N = len(mediciones) # cantidad de mediciones
-
-# Error instrumental
-err_inst = 0.01 # igual para todas las mediciones
-
-mean_med = np.mean(mediciones) # Valor medio de mediciones
-std_med = np.std(mediciones, ddof = 1) # Desvío estándar (std: standard deviation) de mediciones
-# ddof = 1 para que divida por N-1 en vez de N
-
-# Error estadístico
-err_est = std_med / np.sqrt(N) # Desvío estandar del promedio
-
-# Error total
-err = np.sqrt(err_inst**2 + err_est**2)
-
-print(f"Valor reportado: {mean_med:.2f} ± {err:.2f}")
-
-
-
-
-for i in range(10):
-    mediciones = ar.data[i]
+for i in range (8):
+    mediciones=[arr1[i],arr2[i],arr3[i]]
     N = len(mediciones) # cantidad de mediciones
     mean_med = np.mean(mediciones) # Valor medio de mediciones
     std_med = np.std(mediciones, ddof = 1) # Desvío estándar (std: standard deviation) de mediciones
@@ -45,6 +26,5 @@ for i in range(10):
     # Error total
     err = np.sqrt(err_inst**2 + err_est**2)
 
-    ar.data[i][N-1]=err
-    # print(ar.data[i])
-
+    std_arr =np.append(std_arr,err) 
+print(std_arr)

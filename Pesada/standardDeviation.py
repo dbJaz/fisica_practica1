@@ -8,10 +8,14 @@ err_inst = 0.01 # igual para todas las mediciones
 # Contar el número de filas en el archivo pesada.csv
 file_path = 'csv/Pesada.csv'
 data = pd.read_csv(file_path)
-num_rows = len(data)
 
-for i in range(10):
-    mediciones = ar.data[i]
+arr1=ar.data[4]
+arr2=ar.data[5]
+arr3=ar.data[6]
+std_arr=[]
+
+for i in range (8):
+    mediciones=[arr1[i],arr2[i],arr3[i]]
     N = len(mediciones) # cantidad de mediciones
     mean_med = np.mean(mediciones) # Valor medio de mediciones
     std_med = np.std(mediciones, ddof = 1) # Desvío estándar (std: standard deviation) de mediciones
@@ -22,9 +26,5 @@ for i in range(10):
     # Error total
     err = np.sqrt(err_inst**2 + err_est**2)
 
-    ar.data[i][N-1]=err
-    print (err)
-    
-
-    # print(ar.data[i])
-
+    std_arr =np.append(std_arr,err) 
+print(std_arr)
